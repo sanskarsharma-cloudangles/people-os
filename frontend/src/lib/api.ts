@@ -22,8 +22,10 @@ export async function api<T = unknown>(
 ): Promise<T> {
   const token = localStorage.getItem('auth_token')
 
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+  const headers: Record<string, string> = {}
+  const isFormData = opts.body instanceof FormData
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json'
   }
 
   if (opts.headers) {
