@@ -115,18 +115,32 @@ export function Dashboard() {
   const done = tasks.filter((t) => t.status === 'done').length
   const progress = tasks.length ? Math.round((100 * done) / tasks.length) : 0
 
+  const heroIllustration: Record<string, string> = {
+    employee:  '/illustrations/peep-sitting-1.svg',
+    manager:   '/illustrations/peep-standing-1.svg',
+    hr_admin:  '/illustrations/humaaan-hero-1.svg',
+    new_hire:  '/illustrations/humaaan-hero-2.svg',
+  }
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900">Welcome, {user?.name || user?.email}!</h1>
-        <p className="text-slate-600 mt-1 capitalize">{data.view.replace('_', ' ')} Dashboard</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Welcome, {user?.name || user?.email}!</h1>
+          <p className="text-slate-600 mt-1 capitalize">{data.view.replace('_', ' ')} Dashboard</p>
+        </div>
+        <img
+          src={heroIllustration[data.view]}
+          alt=""
+          className="hidden md:block h-36 w-36 object-contain"
+        />
       </div>
 
       {/* New Hire View */}
       {data.view === 'new_hire' && (
         <Card className="p-6">
-          <div className="flex justify-center mb-2">
-            <img src="/illustrations/welcome.svg" alt="" className="w-24 h-24" />
+          <div className="flex justify-center mb-4">
+            <img src="/illustrations/humaaan-wide.svg" alt="" className="w-48 h-auto" />
           </div>
           <h2 className="text-xl font-semibold mb-4">Onboarding Progress</h2>
           <div className="flex items-center justify-center mb-6">
