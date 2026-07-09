@@ -276,7 +276,7 @@ Set env vars: `JWT_SECRET`, optionally `DATABASE_URL` (Supabase Postgres connect
 cd peopleos/frontend
 vercel
 ```
-Set env var: `VITE_API_URL` = your Railway backend URL.
+Set env var: `VITE_API_BASE` = your Railway backend URL.
 
 ### Local + External DB (Supabase)
 1. Create Supabase project, get connection string

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Receipt, Check, X, Paperclip } from 'lucide-react'
 import { api, getApiBase } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
@@ -34,6 +34,7 @@ export function Expenses() {
   const [category, setCategory] = useState('Travel')
   const [description, setDescription] = useState('')
   const [file, setFile] = useState<File | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [msg, setMsg] = useState('')
   const [mine, setMine] = useState<ExpenseRow[]>([])
   const [queue, setQueue] = useState<ExpenseRow[]>([])
@@ -67,6 +68,7 @@ export function Expenses() {
       await api('/expenses/', { method: 'POST', body: fd })
       setMsg('Expense submitted.')
       setAmount(''); setDescription(''); setFile(null)
+      if (fileInputRef.current) fileInputRef.current.value = ''
       load()
     } catch (e: any) {
       setMsg(e?.data?.detail || 'Could not submit expense.')
@@ -119,6 +121,7 @@ export function Expenses() {
           <div>
             <label className="text-sm text-slate-600 flex items-center gap-1"><Paperclip size={14} /> Receipt</label>
             <input
+              ref={fileInputRef}
               type="file"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
               className="mt-1 text-sm"

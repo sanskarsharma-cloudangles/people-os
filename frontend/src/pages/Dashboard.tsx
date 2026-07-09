@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -70,27 +70,28 @@ export function Dashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    let alive = true
-    const fetchDashboard = async () => {
-      try {
-        const d = await api<DashboardView>('/dashboard')
-        if (alive) { setData(d); setError('') }
-      } catch (err) {
-        console.error('Failed to fetch dashboard:', err)
-        if (alive) setError('Failed to load dashboard data')
-      } finally {
-        if (alive) setIsLoading(false)
-      }
+  const fetchDashboard = React.useCallback(async () => {
+    try {
+      const d = await api<DashboardView>('/dashboard')
+      setData(d); setError('')
+    } catch (err) {
+      console.error('Failed to fetch dashboard:', err)
+      setError('Failed to load dashboard data')
+    } finally {
+      setIsLoading(false)
     }
-    fetchDashboard()
-    const id = setInterval(fetchDashboard, 4000) // poll for "real-time"
-    return () => { alive = false; clearInterval(id) }
   }, [])
+
+  useEffect(() => {
+    fetchDashboard()
+    const id = setInterval(fetchDashboard, 4000)
+    return () => clearInterval(id)
+  }, [fetchDashboard])
 
   async function resolveLeave(id: number, action: 'approve' | 'reject') {
     try {
       await api(`/leave/${id}/${action}`, { method: 'POST' })
+      fetchDashboard()
     } catch (e) {
       console.error(e)
     }
