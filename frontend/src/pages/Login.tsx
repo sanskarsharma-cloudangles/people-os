@@ -28,7 +28,7 @@ export function Login() {
   return (
     <div className="min-h-screen grid md:grid-cols-2">
       <div className="hidden md:flex flex-col items-center justify-center bg-indigo-50 p-10">
-        <img src="/illustrations/welcome.svg" alt="" className="w-64 h-64" />
+        <img src="/illustrations/peep-standing-1.svg" alt="" className="w-64 h-64" />
         <h2 className="text-xl font-semibold text-slate-800 mt-6">Your workday, sorted.</h2>
         <p className="text-slate-600 text-center mt-2 max-w-xs">
           Leave, expenses, and onboarding in one place. No forms to chase.
