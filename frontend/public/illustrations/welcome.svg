@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Welcome illustration">
+  <circle cx="120" cy="120" r="118" fill="#eef2ff"/>
+  <circle cx="120" cy="96" r="40" fill="#0f172a"/>
+  <path d="M48 208c0-44 32-72 72-72s72 28 72 72" fill="#0f172a"/>
+  <circle cx="106" cy="92" r="6" fill="#fff"/>
+  <circle cx="134" cy="92" r="6" fill="#fff"/>
+  <path d="M104 112c10 8 22 8 32 0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>
