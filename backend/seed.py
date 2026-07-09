@@ -66,6 +66,35 @@ def main():
         "INSERT INTO onboarding_templates (name,role_target,steps) VALUES (?,?,?)",
         ("Standard Engineering Onboarding", "employee", json.dumps(steps)),
     )
+    tmpl_id = cur.lastrowid
+
+    # Create an onboarding run for the newbie (new hire)
+    cur.execute(
+        "INSERT INTO onboarding_runs (employee_id,template_id,started_at,status) VALUES (?,?,?,?)",
+        (newbie, tmpl_id, now, "in_progress"),
+    )
+    run_id = cur.lastrowid
+
+    # Create tasks for the newbie's onboarding run
+    for idx, step in enumerate(steps):
+        owner_role = step.get("owner_role")
+        owner_id = None
+        if owner_role == "employee":
+            owner_id = newbie
+        elif owner_role == "manager":
+            owner_id = maya
+        elif owner_role == "hr_admin":
+            owner_id = admin
+
+        task_status = "pending"
+        depends_on = step.get("depends_on")
+        if depends_on is not None and depends_on >= 0:
+            task_status = "blocked"
+
+        cur.execute(
+            "INSERT INTO onboarding_tasks (run_id,step_index,title,owner_id,depends_on,status) VALUES (?,?,?,?,?,?)",
+            (run_id, idx, step["title"], owner_id, depends_on, task_status),
+        )
 
     # a sample expense in the manager's queue
     cur.execute(
