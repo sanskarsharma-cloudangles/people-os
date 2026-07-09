@@ -45,12 +45,6 @@ def get_dashboard(
         ).first()
         
         if run:
-            tasks = db.query(OnboardingRun.__table__.join(
-                OnboardingRun.__table__.c.id,
-                db.query(OnboardingRun).filter_by(id=run.id).first().__table__.c.id
-            )).all() if run else []
-            
-            # Simpler approach: get tasks from the run
             from app.models import OnboardingTask
             tasks = db.query(OnboardingTask).filter_by(run_id=run.id).all()
             task_list = [
