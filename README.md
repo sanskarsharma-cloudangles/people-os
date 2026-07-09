@@ -18,7 +18,7 @@ A **role-aware HR management system** with 3 end-to-end flows (leave, onboarding
 
 ### Backend Setup (3 commands)
 ```bash
-cd peopleos/backend
+cd people-os/backend
 python -m venv .venv && source .venv/bin/activate  # .venv\Scripts\activate on Windows
 pip install -r requirements.txt
 python seed.py  # recreates DB from schema.sql + seed data
@@ -27,7 +27,7 @@ uvicorn app.main:app --port 8000  # runs on http://localhost:8000
 
 ### Frontend Setup (2 commands)
 ```bash
-cd peopleos/frontend
+cd people-os/frontend
 npm install
 npm run dev  # runs on http://localhost:5173
 ```
@@ -71,7 +71,7 @@ npm run dev  # runs on http://localhost:5173
 3. Manager approves/rejects (updates balance and status)
 4. Team calendar shows approved leaves (manager sees reports, employee sees own team)
 
-**Test**: `cd peopleos/backend && python -c "..."` (see check_leave.py in plan)
+**Test**: `cd people-os/backend && python -c "..."` (see check_leave.py in plan)
 
 ### 2. **Onboarding Flow** ✅
 1. HR Admin creates new employee → triggers `instantiate()` event engine
@@ -107,7 +107,7 @@ npm run dev  # runs on http://localhost:5173
 3. **Manager → 403 on HR pipeline**: Manager tries `GET /onboarding/pipeline` → 403
 4. **New-hire onboarding auto-starts**: Nina Newbie (seeded 3 days ago) has onboarding run
 
-**Verify all 4**: `cd peopleos/backend && python seed.py && python rbac_smoke.py`
+**Verify all 4**: `cd people-os/backend && python seed.py && python rbac_smoke.py`
 
 ---
 
@@ -126,7 +126,7 @@ npm run dev  # runs on http://localhost:5173
 ## Project Structure
 
 ```
-peopleos/
+people-os/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py              # FastAPI app, routes mounted
@@ -214,14 +214,14 @@ peopleos/
 
 ### Database
 ```bash
-cd peopleos/backend
+cd people-os/backend
 python seed.py                 # Drop, recreate, seed DB
 sqlite3 peopleos.db '.schema'  # Inspect schema
 ```
 
 ### Backend
 ```bash
-cd peopleos/backend
+cd people-os/backend
 source .venv/bin/activate      # activate venv
 pip install -r requirements.txt # install deps
 uvicorn app.main:app --port 8000 --reload
@@ -230,7 +230,7 @@ python rbac_smoke.py           # verify RBAC + 4 judge tests
 
 ### Frontend
 ```bash
-cd peopleos/frontend
+cd people-os/frontend
 npm install                    # install deps
 npm run dev                    # dev server (port 5173)
 npm run build                  # production build
@@ -264,7 +264,7 @@ npm run lint                   # run linter
 
 ### Backend (Railway)
 ```bash
-cd peopleos/backend
+cd people-os/backend
 railway init
 railway up
 railway run python seed.py  # seed once
@@ -273,7 +273,7 @@ Set env vars: `JWT_SECRET`, optionally `DATABASE_URL` (Supabase Postgres connect
 
 ### Frontend (Vercel)
 ```bash
-cd peopleos/frontend
+cd people-os/frontend
 vercel
 ```
 Set env var: `VITE_API_BASE` = your Railway backend URL.
@@ -292,7 +292,7 @@ Set env var: `VITE_API_BASE` = your Railway backend URL.
 No unit tests in this implementation (3-hour window). Focus on E2E verification:
 
 ```bash
-cd peopleos/backend && python rbac_smoke.py  # 4 judge tests
+cd people-os/backend && python rbac_smoke.py  # 4 judge tests
 ```
 
 ### Manual E2E
@@ -322,7 +322,7 @@ Run `python seed.py` in `backend/` directory.
 Default TTL is 12 hours. Refresh by logging out + logging back in (no refresh token flow yet).
 
 ### File upload fails
-Ensure `backend/uploads/` is writable: `chmod 755 peopleos/backend/uploads`.
+Ensure `backend/uploads/` is writable: `chmod 755 people-os/backend/uploads`.
 
 ---
 
