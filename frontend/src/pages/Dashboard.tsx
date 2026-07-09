@@ -124,6 +124,9 @@ export function Dashboard() {
       {/* New Hire View */}
       {data.view === 'new_hire' && (
         <Card className="p-6">
+          <div className="flex justify-center mb-2">
+            <img src="/illustrations/welcome.svg" alt="" className="w-24 h-24" />
+          </div>
           <h2 className="text-xl font-semibold mb-4">Onboarding Progress</h2>
           <div className="flex items-center justify-center mb-6">
             <div className="relative h-32 w-32">

@@ -1,5 +1,5 @@
 import { Link, useNavigate, Outlet } from 'react-router-dom'
-import { LogOut, Home, Calendar, DollarSign, CheckSquare } from 'lucide-react'
+import { LogOut, Home, CalendarDays, Receipt, ClipboardList } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth'
 import { NotificationBell } from './NotificationBell'
@@ -27,31 +27,31 @@ export function Layout() {
             <nav className="flex items-center gap-6">
               <Link
                 to="/dashboard"
-                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm text-gray-700 hover:text-blue-600 transition"
               >
-                <Home className="h-4 w-4" />
-                <span className="text-sm font-medium">Dashboard</span>
+                <Home size={16} />
+                <span className="font-medium">Dashboard</span>
               </Link>
               <Link
                 to="/leave"
-                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm text-gray-700 hover:text-blue-600 transition"
               >
-                <Calendar className="h-4 w-4" />
-                <span className="text-sm font-medium">Leave</span>
+                <CalendarDays size={16} />
+                <span className="font-medium">Leave</span>
               </Link>
               <Link
                 to="/expenses"
-                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm text-gray-700 hover:text-blue-600 transition"
               >
-                <DollarSign className="h-4 w-4" />
-                <span className="text-sm font-medium">Expenses</span>
+                <Receipt size={16} />
+                <span className="font-medium">Expenses</span>
               </Link>
               <Link
                 to="/onboarding"
-                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm text-gray-700 hover:text-blue-600 transition"
               >
-                <CheckSquare className="h-4 w-4" />
-                <span className="text-sm font-medium">Onboarding</span>
+                <ClipboardList size={16} />
+                <span className="font-medium">Onboarding</span>
               </Link>
             </nav>
           </div>
