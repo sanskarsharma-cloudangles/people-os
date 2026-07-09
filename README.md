@@ -2,6 +2,14 @@
 
 A **role-aware HR management system** with 3 end-to-end flows (leave, onboarding, expenses) backed by FastAPI, SQLite, and React.
 
+## Live URLs
+
+- Frontend: https://REPLACE-WITH-VERCEL-URL
+- Backend:  https://REPLACE-WITH-RAILWAY-URL
+
+> Note: the demo uses SQLite on ephemeral disk and local file storage for
+> receipts. Both reset on redeploy. Re-run `python seed.py` after a redeploy.
+
 ## Quick Start
 
 ### Prerequisites
@@ -26,14 +34,13 @@ npm run dev  # runs on http://localhost:5173
 
 ## Demo Logins
 
-All use password: **`password123`**
-
-| Email | Role | View |
-|-------|------|------|
-| `admin@co.com` | HR Admin | Pipeline, new hire creation, approvals |
-| `maya@co.com` | Manager | Team, approvals, leave calendar |
-| `raj@co.com` | Employee | Leave, expenses, balance |
-| `newbie@co.com` | New Hire (3 days) | Onboarding checklist |
+| Email | Password | Role |
+|---|---|---|
+| admin@co.com | password123 | hr_admin |
+| maya@co.com | password123 | manager |
+| raj@co.com | password123 | employee |
+| dev@co.com | password123 | employee |
+| newbie@co.com | password123 | new_hire |
 
 ## Architecture
 
