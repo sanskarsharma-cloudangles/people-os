@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Check, X } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 
@@ -85,6 +87,14 @@ export function Dashboard() {
     const id = setInterval(fetchDashboard, 4000) // poll for "real-time"
     return () => { alive = false; clearInterval(id) }
   }, [])
+
+  async function resolveLeave(id: number, action: 'approve' | 'reject') {
+    try {
+      await api(`/leave/${id}/${action}`, { method: 'POST' })
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -176,7 +186,14 @@ export function Dashboard() {
               {(data.pending_approvals || []).map((l) => (
                 <div key={l.id} className="flex justify-between items-center border-b border-slate-100 py-2">
                   <span>{l.employee_name} · {l.leave_type} · {l.days}d</span>
-                  <Badge variant="pending">pending</Badge>
+                  <div className="flex gap-2">
+                    <Button size="sm" onClick={() => resolveLeave(l.id, 'approve')}>
+                      <Check size={16} />
+                    </Button>
+                    <Button size="sm" variant="destructive" onClick={() => resolveLeave(l.id, 'reject')}>
+                      <X size={16} />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
