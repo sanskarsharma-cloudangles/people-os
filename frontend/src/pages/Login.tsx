@@ -1,138 +1,62 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Building2 } from 'lucide-react'
+import { useAuth } from '@/lib/auth'
+import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card } from '@/components/ui/card'
-import { useAuth } from '@/lib/auth'
-
-const DEMO_ACCOUNTS = [
-  { email: 'maya@co.com', role: 'manager' },
-  { email: 'admin@co.com', role: 'hr_admin' },
-  { email: 'raj@co.com', role: 'employee' },
-  { email: 'newbie@co.com', role: 'new_hire' },
-]
 
 export function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('password123')
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
   const { login } = useAuth()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleLogin = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setLoading(true)
     setError('')
-    setIsLoading(true)
-
     try {
       await login(email, password)
-      navigate('/dashboard')
-    } catch (err) {
-      setError('Login failed. Please check your credentials.')
-      console.error(err)
+    } catch {
+      setError('Invalid email or password.')
     } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleQuickLogin = async (demoEmail: string) => {
-    setEmail(demoEmail)
-    setError('')
-    setIsLoading(true)
-
-    try {
-      await login(demoEmail, 'password123')
-      navigate('/dashboard')
-    } catch (err) {
-      setError('Login failed. Please check your credentials.')
-      console.error(err)
-    } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <Card className="w-full max-w-md p-8 shadow-lg">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">PeopleOS</h1>
-          <p className="text-gray-600 mt-2">Human Resource Management System</p>
-        </div>
+    <div className="min-h-screen grid md:grid-cols-2">
+      <div className="hidden md:flex flex-col items-center justify-center bg-indigo-50 p-10">
+        <img src="/illustrations/welcome.svg" alt="" className="w-64 h-64" />
+        <h2 className="text-xl font-semibold text-slate-800 mt-6">Your workday, sorted.</h2>
+        <p className="text-slate-600 text-center mt-2 max-w-xs">
+          Leave, expenses, and onboarding in one place. No forms to chase.
+        </p>
+      </div>
 
-        {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md text-sm text-red-700">
-            {error}
+      <div className="flex items-center justify-center p-6">
+        <Card className="w-full max-w-sm p-6">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="rounded-lg bg-slate-900 text-white p-2"><Building2 size={22} /></div>
+            <span className="text-2xl font-bold">PeopleOS</span>
           </div>
-        )}
-
-        <form onSubmit={handleLogin} className="space-y-4 mb-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              required
-              disabled={isLoading}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="password123"
-              required
-              disabled={isLoading}
-            />
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading || !email}
-          >
-            {isLoading ? 'Logging in...' : 'Login'}
-          </Button>
-        </form>
-
-        <div className="mb-6">
-          <p className="text-xs text-gray-500 text-center mb-3 uppercase tracking-wide">
-            Demo Credentials
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            {DEMO_ACCOUNTS.map((account) => (
-              <Button
-                key={account.email}
-                variant="outline"
-                size="sm"
-                onClick={() => handleQuickLogin(account.email)}
-                disabled={isLoading}
-                className="text-xs h-8"
-              >
-                <div className="text-left">
-                  <div className="font-medium">{account.email.split('@')[0]}</div>
-                  <div className="text-xs text-gray-500">{account.role}</div>
-                </div>
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        <div className="text-center text-xs text-gray-500">
-          <p>Password: <code className="bg-gray-100 px-2 py-1 rounded">password123</code></p>
-        </div>
-      </Card>
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div>
+              <label className="text-sm text-slate-600">Email</label>
+              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" required />
+            </div>
+            <div>
+              <label className="text-sm text-slate-600">Password</label>
+              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </div>
+            {error && <p className="text-sm text-red-600">{error}</p>}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign in'}
+            </Button>
+          </form>
+        </Card>
+      </div>
     </div>
   )
 }
