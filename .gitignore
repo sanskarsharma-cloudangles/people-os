@@ -8,3 +8,4 @@ dist/
 .env
 .venv/
 venv/
+.superpowers/

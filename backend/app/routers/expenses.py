@@ -40,7 +40,7 @@ async def submit_expense(
     """Submit expense with receipt. Sets status based on amount chain."""
     # Save receipt file
     try:
-        contents = await receipt.file.read()
+        contents = await receipt.read()
         file_id = str(uuid.uuid4())
         file_ext = Path(receipt.filename).suffix or ".pdf"
         file_path = UPLOADS_DIR / f"{file_id}{file_ext}"
